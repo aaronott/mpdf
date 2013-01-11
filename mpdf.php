@@ -17148,11 +17148,12 @@ function OpenTag($tag,$attr)
 		$maxWidth = $this->blk[$this->blklvl]['inner_width'];
    		$maxHeight = $this->h - ($this->tMargin + $this->bMargin + 1) ;
 
-    // allow for max-height, max-width, min-height, min-width to be set.
-    if (isset($properties['MAX-HEIGHT'])) {
-      $mh = preg_replace('/px/', '', $properties['MAX-HEIGHT']);
-      $maxHeight = ($mh < $maxHeight) ? $mh : $maxHeight;
-    }
+    // allow for max-height, max-width to be set.
+    // If the maxHeigh set by the page size is larger than the max-height set 
+    // by the stylesheet, the stylesheet wins.
+    if (isset($properties['MAX-HEIGHT'])) { $maxHeight = $this->ConvertSize($properties['MAX-HEIGHT'], $maxHeight); }
+    if (isset($properties['MAX-WIDTH'])) { $maxWidth = $this->ConvertSize($properties['MAX-WIDTH'], $maxWidth); }
+
 		if ($this->fullImageHeight) { $maxHeight = $this->fullImageHeight; }
 		if ($w + $extrawidth > $maxWidth ) {
 			$w = $maxWidth - $extrawidth;
