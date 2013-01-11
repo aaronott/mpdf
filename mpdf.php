@@ -17147,6 +17147,12 @@ function OpenTag($tag,$attr)
 		// Resize to maximum dimensions of page
 		$maxWidth = $this->blk[$this->blklvl]['inner_width'];
    		$maxHeight = $this->h - ($this->tMargin + $this->bMargin + 1) ;
+
+    // allow for max-height, max-width, min-height, min-width to be set.
+    if (isset($properties['MAX-HEIGHT'])) {
+      $mh = preg_replace('/px/', '', $properties['MAX-HEIGHT']);
+      $maxHeight = ($mh < $maxHeight) ? $mh : $maxHeight;
+    }
 		if ($this->fullImageHeight) { $maxHeight = $this->fullImageHeight; }
 		if ($w + $extrawidth > $maxWidth ) {
 			$w = $maxWidth - $extrawidth;
